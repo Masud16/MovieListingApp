@@ -17,8 +17,14 @@ public class UserController {
     @PostMapping("/register")
     public ResponseEntity<String> registerUser(@RequestBody User user) {
 
-        if (user == null || user.getEmail() == null) {
+        if (user == null || user.getEmail() == null || user.getEmail().isEmpty()) {
             return ResponseEntity.badRequest().body("Invalid user, Please Insert an email!");
+        }
+
+        for (User u : registeredUsers) {
+            if (u.getEmail().equalsIgnoreCase(user.getEmail())) {
+                return ResponseEntity.status(HttpStatus.CONFLICT).body("User already registered");
+            }
         }
 
         registeredUsers.add(user);
