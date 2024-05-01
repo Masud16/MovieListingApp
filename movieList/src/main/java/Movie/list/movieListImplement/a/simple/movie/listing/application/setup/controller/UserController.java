@@ -8,12 +8,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping("/movie")
+@RequestMapping("/user")
 @CrossOrigin("*")
 public class UserController {
 
     private static final List<User> registeredUsers = new ArrayList<>();
 
+
+    // user registration with their email address
     @PostMapping("/register")
     public ResponseEntity<String> registerUser(@RequestBody User user) {
 
