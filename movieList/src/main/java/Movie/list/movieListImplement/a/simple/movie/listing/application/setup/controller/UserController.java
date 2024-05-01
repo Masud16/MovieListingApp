@@ -5,10 +5,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/user")
@@ -76,6 +74,25 @@ public class UserController {
             } else {
                 return ResponseEntity.notFound().build();
             }
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+
+    @GetMapping("/{userId}/favorites/search")
+    public ResponseEntity<List<Movie>> searchFavoriteMovies(@PathVariable String userId,
+                                                            @RequestParam(value = "query", required = true) String query) {
+        User user = users.get(userId);
+        if (user != null) {
+            Set<Movie> favoriteMovies = user.getFavoriteMovies();
+            // Filter favorite movies by the search query
+            List<Movie> searchResults = favoriteMovies.stream()
+                    .filter(movie -> movie.getTitle().toLowerCase().contains(query.toLowerCase()) ||
+                            movie.getCast().toLowerCase().contains(query.toLowerCase()) ||
+                            movie.getCategory().toLowerCase().contains(query.toLowerCase()))
+                    .collect(Collectors.toList());
+            return ResponseEntity.ok(searchResults);
         } else {
             return ResponseEntity.notFound().build();
         }
