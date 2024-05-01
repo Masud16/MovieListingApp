@@ -1,6 +1,8 @@
 package Movie.list.movieListImplement.a.simple.movie.listing.application.setup.controller;
 
 import Movie.list.movieListImplement.a.simple.movie.listing.application.setup.entiry.Movie;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
@@ -18,4 +20,10 @@ public class MovieController {
         movies.add(new Movie("Inception", "Leonardo DiCaprio, Joseph Gordon-Levitt", "Sci-Fi", 2010, 16000000.10));
         movies.add(new Movie("Pulp Fiction", "John Travolta, Uma Thurman", "Crime", 1994, 850000.60));
     }
+
+    @GetMapping("/movies")
+    public ResponseEntity<List<Movie>> getAllMovies() {
+        return ResponseEntity.ok(movies);
+    }
+
 }
