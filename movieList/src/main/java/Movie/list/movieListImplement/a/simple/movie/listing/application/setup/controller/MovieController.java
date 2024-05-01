@@ -23,11 +23,13 @@ public class MovieController {
         movies.add(new Movie("Pulp Fiction", "John Travolta, Uma Thurman", "Crime", 1994, 850000.60));
     }
 
+
     //Searching all the movies in the app.
     @GetMapping("/movies")
     public ResponseEntity<List<Movie>> getAllMovies() {
         return ResponseEntity.ok(movies);
     }
+
 
     //searching for either title, cast or category
     @GetMapping("/movies/search")

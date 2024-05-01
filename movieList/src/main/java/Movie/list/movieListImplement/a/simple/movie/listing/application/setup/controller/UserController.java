@@ -15,6 +15,7 @@ public class UserController {
 
     private static final List<User> registeredUsers = new ArrayList<>();
 
+
     // user registration with their email address
     private final Map<String, User> users = new HashMap<>();
     @PostMapping("/register")
@@ -25,10 +26,13 @@ public class UserController {
         return ResponseEntity.ok(newUser);
     }
 
+
+    //to see all users
     @GetMapping("/getAllUser")
     public ResponseEntity<Map<String, User>> getAllUser() {
         return ResponseEntity.ok(users);
     }
+
 
     //search by userId
     @GetMapping("/search/{userId}")
@@ -40,7 +44,6 @@ public class UserController {
             return ResponseEntity.notFound().build();
         }
     }
-
 
 
     //Added movies to favorites.
@@ -80,6 +83,7 @@ public class UserController {
     }
 
 
+    //Searching into user favorite movies
     @GetMapping("/{userId}/favorites/search")
     public ResponseEntity<List<Movie>> searchFavoriteMovies(@PathVariable String userId,
                                                             @RequestParam(value = "query", required = true) String query) {
@@ -98,20 +102,4 @@ public class UserController {
         }
     }
 
-
-//    public ResponseEntity<String> registerUser(@RequestParam String email) {
-//
-//        if (user == null || user.getEmail() == null || user.getEmail().isEmpty()) {
-//            return ResponseEntity.badRequest().body("Invalid user, Please Insert an email!");
-//        }
-//
-//        for (User u : registeredUsers) {
-//            if (u.getEmail().equalsIgnoreCase(user.getEmail())) {
-//                return ResponseEntity.status(HttpStatus.CONFLICT).body("User already registered");
-//            }
-//        }
-//
-//        registeredUsers.add(user);
-//        return ResponseEntity.ok("User registered successfully");
-//    }
 }
