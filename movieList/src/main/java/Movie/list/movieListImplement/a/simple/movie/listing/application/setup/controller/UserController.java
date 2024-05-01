@@ -27,6 +27,11 @@ public class UserController {
         return ResponseEntity.ok(newUser);
     }
 
+    @GetMapping("/getAllUser")
+    public ResponseEntity<Map<String, User>> getAllUser() {
+        return ResponseEntity.ok(users);
+    }
+
     //search by userId
     @GetMapping("/search/{userId}")
     public ResponseEntity<User> getUser(@PathVariable String userId) {
@@ -48,6 +53,29 @@ public class UserController {
         if (user != null) {
             user.addFavoriteMovie(movie);
             return ResponseEntity.ok("Movie added to favorites successfully");
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+
+    //Removing movies from their favorites
+    @DeleteMapping("/{userId}/favorites/{movieName}")
+    public ResponseEntity<String> removeFavoriteMovie(@PathVariable String userId,
+                                                      @PathVariable String movieName) {
+        User user = users.get(userId);
+        if (user != null) {
+            Movie movieToRemove = user.getFavoriteMovies()
+                    .stream()
+                    .filter(movie -> movie.getTitle().equals(movieName))
+                    .findFirst()
+                    .orElse(null);
+            if (movieToRemove != null) {
+                user.removeFavoriteMovie(movieToRemove);
+                return ResponseEntity.ok("Movie removed from favorites successfully");
+            } else {
+                return ResponseEntity.notFound().build();
+            }
         } else {
             return ResponseEntity.notFound().build();
         }
