@@ -1,4 +1,5 @@
 package Movie.list.movieListImplement.a.simple.movie.listing.application.setup.controller;
+import Movie.list.movieListImplement.a.simple.movie.listing.application.setup.entiry.Movie;
 import Movie.list.movieListImplement.a.simple.movie.listing.application.setup.entiry.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,6 +33,21 @@ public class UserController {
         User user = users.get(userId);
         if (user != null) {
             return ResponseEntity.ok(user);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+
+
+    //Added movies to favorites.
+    @PostMapping("/{userId}/favorites")
+    public ResponseEntity<String> addFavoriteMovie(@PathVariable String userId,
+                                                   @RequestBody Movie movie) {
+        User user = users.get(userId);
+        if (user != null) {
+            user.addFavoriteMovie(movie);
+            return ResponseEntity.ok("Movie added to favorites successfully");
         } else {
             return ResponseEntity.notFound().build();
         }
