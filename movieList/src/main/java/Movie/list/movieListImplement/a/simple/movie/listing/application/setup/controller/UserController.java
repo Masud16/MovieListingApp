@@ -26,6 +26,17 @@ public class UserController {
         return ResponseEntity.ok(newUser);
     }
 
+    //search by userId
+    @GetMapping("/search/{userId}")
+    public ResponseEntity<User> getUser(@PathVariable String userId) {
+        User user = users.get(userId);
+        if (user != null) {
+            return ResponseEntity.ok(user);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
 
 //    public ResponseEntity<String> registerUser(@RequestParam String email) {
 //
